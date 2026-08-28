@@ -1,57 +1,148 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>vpscan</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
 
-    <style>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>vpscan</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
 
-      .vb {
-  height: 60px;
-  font-weight:bold;
-        font-size:0.8em;
-        padding: 2px;
-}
+  <style>
+    .vb,
+    #vanbtn {
+      height: 60px;
+      font-weight: bold;
+      font-size: 0.8em;
+      padding: 2px;
+    }
+  </style>
 
-    </style>
-
-    <script type="module">
-import jsbarcode from "https://esm.sh/jsbarcode";
+  <script type="module">
+    import jsbarcode from "https://esm.sh/jsbarcode";
 
 
-const bp = document.querySelector("#button-panel");
-const back = document.querySelector("#back");
-const svg = document.querySelector("#barcode");
+    const bp = document.querySelector("#button-panel");
+    const back = document.querySelector("#back");
+    const svg = document.querySelector("#barcode");
+    const vanbtn = document.querySelector("#vanbtn");
+    const vanpage = document.querySelector("#vanpage");
+    const vansave = document.querySelector("#vansave");
 
-  
-  back.addEventListener("click", (event) => {
-    bp.style.display = 'block';
-        back.style.display = 'none';
-    svg.innerHTML = "";
-  });
+    const btnfilterall = document.querySelector("#btnfilterall");
+    const btnfilteramb = document.querySelector("#btnfilteramb");
+    const btnfilterchl = document.querySelector("#btnfilterchl");
+    const btnfilterfrz = document.querySelector("#btnfilterfrz");
 
-let elementsArray = document.querySelectorAll(".vb");
 
-elementsArray.forEach(function(elem) {
-  
-  elem.addEventListener("click", (event) => {
-    
-    let code = "VP-"+event.target.innerHTML;
-    bp.style.display = 'none';
-        back.style.display = 'block';
-    JsBarcode("#barcode", code, {
-        width:4,
-  height:120,
+    back.addEventListener("click", (event) => {
+      vanpage.style.display = 'none';
+      bp.style.display = 'block';
+      back.style.display = 'none';
+      svg.innerHTML = "";
+    });
+
+    vanbtn.addEventListener("click", (event) => {
+      vanpage.style.display = 'block';
+      bp.style.display = 'none';
+      back.style.display = 'block';
+      svg.innerHTML = "";
+
+
+      if (localStorage.getItem("vanreg") != null) {
+        document.querySelector("#vanreg").value = localStorage.getItem("vanreg");
+        JsBarcode("#barcode", localStorage.getItem("vanreg"), {
+          width: 4,
+          height: 120,
+        });
+      }
+    });
+
+    vansave.addEventListener("click", (event) => {
+      var vanreg = document.querySelector("#vanreg").value;
+      console.log("vanreg", vanreg);
+      if (vanreg.length > 0) {
+        let code = vanreg;
+
+        localStorage.setItem("vanreg", vanreg);
+        JsBarcode("#barcode", code, {
+          width: 4,
+          height: 120,
+        });
+      }
+    });
+
+  btnfilterall.addEventListener("click", (event) => {
+    let elementsArray = document.querySelectorAll("#button-panel table td");
+    elementsArray.forEach(function (elem) {
+      elem.style.display = 'table-cell';
     });
   });
-});
+
+  btnfilteramb.addEventListener("click", (event) => {
+    let elementsArray = document.querySelectorAll("#button-panel table td");
+    elementsArray.forEach(function (elem) {
+      elem.style.display = 'none';
+    });
+
+    let elementsArrayAmb = document.querySelectorAll(".amb");
+    elementsArrayAmb.forEach(function (elem) {
+      elem.style.display = 'table-cell';
+    });
+  });
 
 
-    </script>
-  </head>
-  <body>
+    btnfilterchl.addEventListener("click", (event) => {
+    let elementsArray = document.querySelectorAll("#button-panel table td");
+    elementsArray.forEach(function (elem) {
+      elem.style.display = 'none';
+    });
+
+    let elementsArrayChl = document.querySelectorAll(".chl");
+    elementsArrayChl.forEach(function (elem) {
+      elem.style.display = 'table-cell';
+    });
+  });
+
+  btnfilterfrz.addEventListener("click", (event) => {
+    let elementsArray = document.querySelectorAll("#button-panel table td");
+    elementsArray.forEach(function (elem) {
+      elem.style.display = 'none';
+    });
+
+    let elementsArrayFrz = document.querySelectorAll(".frz");
+    elementsArrayFrz.forEach(function (elem) {
+      elem.style.display = 'table-cell';
+    });
+  });
+
+
+  
+
+
+
+
+    let elementsArray = document.querySelectorAll(".vb");
+
+    elementsArray.forEach(function (elem) {
+
+      elem.addEventListener("click", (event) => {
+
+        let code = "VP-" + event.target.innerHTML;
+        bp.style.display = 'none';
+        back.style.display = 'block';
+        JsBarcode("#barcode", code, {
+          width: 4,
+          height: 120,
+        });
+      });
+    });
+
+
+
+  </script>
+</head>
+
+<body>
 
   <section class="section">
     <div class="container">
@@ -61,64 +152,95 @@ elementsArray.forEach(function(elem) {
       <p class="subtitle">
         Tool for generating <strong>VP Loading Codes</strong>!
       </p>
-      <button class="button is-primary is-large" id="back" style="display:none;">Back</button><br />
-      <div id="button-panel">
-      <table class="table is-fullwidth is-narrow">
-                  <tr>
-            <td><button class="button is-fullwidth vb">E1</button></td>
-            <td><button class="button is-fullwidth vb">E2</button></td>
-            <td><button class="button is-fullwidth vb">E3</button></td>
-            <td><button class="button is-fullwidth vb">E4</button></td>
-            <td><button class="button is-fullwidth vb is-info">E5</button></td>
-            <td><button class="button is-fullwidth vb is-success">E6</button></td>
-            <td><button class="button is-fullwidth vb is-success">E7</button></td>
-          </tr>  
-                  <tr>
-            <td><button class="button is-fullwidth vb">D1</button></td>
-            <td><button class="button is-fullwidth vb">D2</button></td>
-            <td><button class="button is-fullwidth vb">D3</button></td>
-            <td><button class="button is-fullwidth vb">D4</button></td>
-            <td><button class="button is-fullwidth vb is-info">D5</button></td>
-            <td><button class="button is-fullwidth vb is-success">D6</button></td>
-            <td><button class="button is-fullwidth vb is-success">D7</button></td>
-          </tr>  
-          <tr>
-            <td><button class="button is-fullwidth vb">C1</button></td>
-            <td><button class="button is-fullwidth vb">C2</button></td>
-            <td><button class="button is-fullwidth vb">C3</button></td>
-            <td><button class="button is-fullwidth vb">C4</button></td>
-            <td><button class="button is-fullwidth vb is-info">C5</button></td>
-            <td><button class="button is-fullwidth vb is-success">C6</button></td>
-            <td><button class="button is-fullwidth vb is-success">C7</button></td>
-          </tr>          
-          <tr>
-            <td><button class="button is-fullwidth vb">B1</button></td>
-            <td><button class="button is-fullwidth vb">B2</button></td>
-            <td><button class="button is-fullwidth vb">B3</button></td>
-            <td><button class="button is-fullwidth vb">B4</button></td>
-            <td><button class="button is-fullwidth vb is-info">B5</button></td>
-            <td><button class="button is-fullwidth vb is-success">B6</button></td>
-            <td><button class="button is-fullwidth vb is-success">B7</button></td>
-          </tr>        
-          <tr>
-            <td><button class="button is-fullwidth vb">A1</button></td>
-            <td><button class="button is-fullwidth vb">A2</button></td>
-            <td><button class="button is-fullwidth vb">A3</button></td>
-            <td><button class="button is-fullwidth vb">A4</button></td>
-            <td><button class="button is-fullwidth vb is-info">A5</button></td>
-            <td><button class="button is-fullwidth vb is-success">A6</button></td>
-            <td><button class="button is-fullwidth vb is-success">A7</button></td>
-          </tr>
-      </table>
-      </div>
-      
-      <svg id="barcode"></svg>
-      
-      
+      <button class="button is-primary is-large  is-fullwidth" id="back" style="display:none;">Back</button><br />
 
-   
+
+
+
+
+      <div id="button-panel">
+        <div class="level is-mobile">
+          <div class="level-item">
+            <button id="btnfilterall" class="button is-link is-fullwidth">ALL</button>
+          </div>
+          <div class="level-item">
+            <button id="btnfilteramb" class="button is-link is-fullwidth">AMB</button>
+          </div>
+                    <div class="level-item">
+            <button id="btnfilterfrz" class="button is-link is-fullwidth">FRZ</button>
+          </div>
+          <div class="level-item">
+            <button id="btnfilterchl" class="button is-link is-fullwidth">CHL</button>
+          </div>
+
+
+        </div>
+
+        <button class="button is-fullwidth mb-4" id="vanbtn">VAN</button>
+        <table class="table is-fullwidth is-narrow">
+          <tr>
+            <td class="amb"><button class="button is-fullwidth vb">E1</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">E2</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">E3</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">E4</button></td>
+            <td class="frz"><button class="button is-fullwidth vb is-info">E5</button></td>
+            <td class="chl"><button class="button is-fullwidth vb is-success">E6</button></td>
+            <td class="chl"><button class="button is-fullwidth vb is-success">E7</button></td>
+          </tr>
+          <tr>
+            <td class="amb"><button class="button is-fullwidth vb">D1</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">D2</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">D3</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">D4</button></td>
+            <td class="frz"><button class="button is-fullwidth vb is-info">D5</button></td>
+            <td class="chl"><button class="button is-fullwidth vb is-success">D6</button></td>
+            <td class="chl"><button class="button is-fullwidth vb is-success">D7</button></td>
+          </tr>
+          <tr>
+            <td class="amb"><button class="button is-fullwidth vb">C1</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">C2</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">C3</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">C4</button></td>
+            <td class="frz"><button class="button is-fullwidth vb is-info">C5</button></td>
+            <td class="chl"><button class="button is-fullwidth vb is-success">C6</button></td>
+            <td class="chl"><button class="button is-fullwidth vb is-success">C7</button></td>
+          </tr>
+          <tr>
+            <td class="amb"><button class="button is-fullwidth vb">B1</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">B2</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">B3</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">B4</button></td>
+            <td class="frz"><button class="button is-fullwidth vb is-info">B5</button></td>
+            <td class="chl"><button class="button is-fullwidth vb is-success">B6</button></td>
+            <td class="chl"><button class="button is-fullwidth vb is-success">B7</button></td>
+          </tr>
+          <tr>
+            <td class="amb"><button class="button is-fullwidth vb">A1</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">A2</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">A3</button></td>
+            <td class="amb"><button class="button is-fullwidth vb">A4</button></td>
+            <td class="frz"><button class="button is-fullwidth vb is-info">A5</button></td>
+            <td class="chl"><button class="button is-fullwidth vb is-success">A6</button></td>
+            <td class="chl"><button class="button is-fullwidth vb is-success">A7</button></td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="vanpage" style="display:none;">
+        <input class="input is-large mb-5" type="text" id="vanreg" placeholder="VAN REGISTRATION" />
+
+        <button class="button is-success is-large  is-fullwidth" id="vansave">SAVE</button><br />
+      </div>
+
+      <center>
+        <svg id="barcode"></svg>
+
+      </center>
+
+
     </div>
   </section>
 
-  </body>
+</body>
+
 </html>
