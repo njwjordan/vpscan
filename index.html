@@ -33,12 +33,19 @@
     const btnfilterchl = document.querySelector("#btnfilterchl");
     const btnfilterfrz = document.querySelector("#btnfilterfrz");
 
+    function vibe()
+    {
+      if(navigator.vibrate)
+      navigator.vibrate(200);
+    }
+
 
     back.addEventListener("click", (event) => {
       vanpage.style.display = 'none';
       bp.style.display = 'block';
       back.style.display = 'none';
       svg.innerHTML = "";
+      vibe();
     });
 
     vanbtn.addEventListener("click", (event) => {
@@ -46,7 +53,7 @@
       bp.style.display = 'none';
       back.style.display = 'block';
       svg.innerHTML = "";
-
+      vibe();
 
       if (localStorage.getItem("vanreg") != null) {
         document.querySelector("#vanreg").value = localStorage.getItem("vanreg");
@@ -62,6 +69,7 @@
       console.log("vanreg", vanreg);
       if (vanreg.length > 0) {
         let code = vanreg;
+              vibe();
 
         localStorage.setItem("vanreg", vanreg);
         JsBarcode("#barcode", code, {
@@ -75,7 +83,9 @@
     let elementsArray = document.querySelectorAll("#button-panel table td");
     elementsArray.forEach(function (elem) {
       elem.style.display = 'table-cell';
+      
     });
+          vibe();
   });
 
   btnfilteramb.addEventListener("click", (event) => {
@@ -84,10 +94,12 @@
       elem.style.display = 'none';
     });
 
+
     let elementsArrayAmb = document.querySelectorAll(".amb");
     elementsArrayAmb.forEach(function (elem) {
       elem.style.display = 'table-cell';
     });
+          vibe();
   });
 
 
@@ -101,6 +113,7 @@
     elementsArrayChl.forEach(function (elem) {
       elem.style.display = 'table-cell';
     });
+          vibe();
   });
 
   btnfilterfrz.addEventListener("click", (event) => {
@@ -113,6 +126,7 @@
     elementsArrayFrz.forEach(function (elem) {
       elem.style.display = 'table-cell';
     });
+          vibe();
   });
 
 
@@ -134,6 +148,7 @@
           width: 4,
           height: 120,
         });
+              vibe();
       });
     });
 
