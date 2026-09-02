@@ -9,7 +9,8 @@
 
   <style>
     .vb,
-    #vanbtn {
+    #vanbtn,
+    #ctbtn {
       height: 60px;
       font-weight: bold;
       font-size: 0.8em;
@@ -27,29 +28,52 @@
     const vanbtn = document.querySelector("#vanbtn");
     const vanpage = document.querySelector("#vanpage");
     const vansave = document.querySelector("#vansave");
+    const ctreg = document.querySelector("#ctreg");
 
     const ctbtn = document.querySelector("#ctbtn");
     const ctpage = document.querySelector("#ctpage");
     const ctsave = document.querySelector("#ctsave");
+    const addctbtn = document.querySelector("#addctbtn");
+    const addtrbtn = document.querySelector("#addtrbtn");
+    const clrbtn = document.querySelector("#clrbtn");
 
     const btnfilterall = document.querySelector("#btnfilterall");
     const btnfilteramb = document.querySelector("#btnfilteramb");
     const btnfilterchl = document.querySelector("#btnfilterchl");
     const btnfilterfrz = document.querySelector("#btnfilterfrz");
 
-    function vibe()
-    {
-      if(navigator.vibrate)
-      navigator.vibrate(100);
+    function vibe() {
+      if (navigator.vibrate)
+        navigator.vibrate(100);
     }
 
 
     back.addEventListener("click", (event) => {
       vanpage.style.display = 'none';
-      ctpage.style.display = 'none';      
+      ctpage.style.display = 'none';
       bp.style.display = 'block';
       back.style.display = 'none';
       svg.innerHTML = "";
+      vibe();
+    });
+
+    
+
+    addctbtn.addEventListener("click", (event) => {
+      ctreg.value = "CT-" + ctreg.value;
+      ctreg.focus();
+      vibe();
+    });
+
+    addtrbtn.addEventListener("click", (event) => {
+    ctreg.value = "TR-" + ctreg.value;
+          ctreg.focus();
+      vibe();
+    });
+
+    clrbtn.addEventListener("click", (event) => {
+      ctreg.value = "";
+            ctreg.focus();
       vibe();
     });
 
@@ -83,14 +107,14 @@
           height: 120,
         });
       }
-    });    
+    });
 
     ctsave.addEventListener("click", (event) => {
       var ctreg = document.querySelector("#ctreg").value;
       console.log("ctreg", ctreg);
       if (ctreg.length > 0) {
-        let code = "CT-" + ctreg;
-              vibe();
+        let code = ctreg;
+        vibe();
 
         localStorage.setItem("ctreg", code);
         JsBarcode("#barcode", code, {
@@ -105,7 +129,7 @@
       console.log("vanreg", vanreg);
       if (vanreg.length > 0) {
         let code = vanreg;
-              vibe();
+        vibe();
 
         localStorage.setItem("vanreg", vanreg);
         JsBarcode("#barcode", code, {
@@ -115,58 +139,58 @@
       }
     });
 
-  btnfilterall.addEventListener("click", (event) => {
-    let elementsArray = document.querySelectorAll("#button-panel table td");
-    elementsArray.forEach(function (elem) {
-      elem.style.display = 'table-cell';
-      
-    });
-          vibe();
-  });
+    btnfilterall.addEventListener("click", (event) => {
+      let elementsArray = document.querySelectorAll("#button-panel table td");
+      elementsArray.forEach(function (elem) {
+        elem.style.display = 'table-cell';
 
-  btnfilteramb.addEventListener("click", (event) => {
-    let elementsArray = document.querySelectorAll("#button-panel table td");
-    elementsArray.forEach(function (elem) {
-      elem.style.display = 'none';
+      });
+      vibe();
     });
 
+    btnfilteramb.addEventListener("click", (event) => {
+      let elementsArray = document.querySelectorAll("#button-panel table td");
+      elementsArray.forEach(function (elem) {
+        elem.style.display = 'none';
+      });
 
-    let elementsArrayAmb = document.querySelectorAll(".amb");
-    elementsArrayAmb.forEach(function (elem) {
-      elem.style.display = 'table-cell';
+
+      let elementsArrayAmb = document.querySelectorAll(".amb");
+      elementsArrayAmb.forEach(function (elem) {
+        elem.style.display = 'table-cell';
+      });
+      vibe();
     });
-          vibe();
-  });
 
 
     btnfilterchl.addEventListener("click", (event) => {
-    let elementsArray = document.querySelectorAll("#button-panel table td");
-    elementsArray.forEach(function (elem) {
-      elem.style.display = 'none';
+      let elementsArray = document.querySelectorAll("#button-panel table td");
+      elementsArray.forEach(function (elem) {
+        elem.style.display = 'none';
+      });
+
+      let elementsArrayChl = document.querySelectorAll(".chl");
+      elementsArrayChl.forEach(function (elem) {
+        elem.style.display = 'table-cell';
+      });
+      vibe();
     });
 
-    let elementsArrayChl = document.querySelectorAll(".chl");
-    elementsArrayChl.forEach(function (elem) {
-      elem.style.display = 'table-cell';
+    btnfilterfrz.addEventListener("click", (event) => {
+      let elementsArray = document.querySelectorAll("#button-panel table td");
+      elementsArray.forEach(function (elem) {
+        elem.style.display = 'none';
+      });
+
+      let elementsArrayFrz = document.querySelectorAll(".frz");
+      elementsArrayFrz.forEach(function (elem) {
+        elem.style.display = 'table-cell';
+      });
+      vibe();
     });
-          vibe();
-  });
-
-  btnfilterfrz.addEventListener("click", (event) => {
-    let elementsArray = document.querySelectorAll("#button-panel table td");
-    elementsArray.forEach(function (elem) {
-      elem.style.display = 'none';
-    });
-
-    let elementsArrayFrz = document.querySelectorAll(".frz");
-    elementsArrayFrz.forEach(function (elem) {
-      elem.style.display = 'table-cell';
-    });
-          vibe();
-  });
 
 
-  
+
 
 
 
@@ -184,7 +208,7 @@
           width: 4,
           height: 120,
         });
-              vibe();
+        vibe();
       });
     });
 
@@ -217,7 +241,7 @@
           <div class="level-item">
             <button id="btnfilteramb" class="button is-link is-fullwidth">AMB</button>
           </div>
-                    <div class="level-item">
+          <div class="level-item">
             <button id="btnfilterfrz" class="button is-link is-fullwidth">FRZ</button>
           </div>
           <div class="level-item">
@@ -228,7 +252,7 @@
         </div>
 
         <button class="button is-fullwidth mb-4" id="vanbtn">VAN</button>
-        <button class="button is-fullwidth mb-4" id="ctbtn">CONTAINER</button>
+        <button class="button is-fullwidth mb-4" id="ctbtn">OTHER BARCODE</button>
         <table class="table is-fullwidth is-narrow">
           <tr>
             <td class="amb"><button class="button is-fullwidth vb">E1</button></td>
@@ -289,19 +313,27 @@
       <div id="ctpage" style="display:none;">
 
 
-        <div class="field has-addons">
-            <p class="control">
-    <a class="button is-large  is-static">
-      CT-
-    </a>
-  </p>
-  <p class="control">
-        <input class="input is-large mb-5" type="text" id="ctreg" placeholder="1234567" />
-  </p>
+          <p class="control">
+            <input class="input is-large mb-5 is-fullwidth" type="tel" id="ctreg" placeholder="1234567" />
+          </p>
 
-</div>
+        <div class="columns">
+                              <div class="column is-3">
 
+                              <button class="button is-danger is-large  is-fullwidth" id="clrbtn">CLEAR</button><br />
 
+          </div>
+          <div class="column is-3">
+                    <button class="button is-success is-large  is-fullwidth" id="addctbtn">CT-</button><br />
+
+          </div>
+                    <div class="column is-3">
+
+                              <button class="button is-success is-large  is-fullwidth" id="addtrbtn">TR-</button><br />
+
+          </div>
+
+        </div>
 
 
 
