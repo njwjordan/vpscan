@@ -28,6 +28,10 @@
     const vanpage = document.querySelector("#vanpage");
     const vansave = document.querySelector("#vansave");
 
+    const ctbtn = document.querySelector("#ctbtn");
+    const ctpage = document.querySelector("#ctpage");
+    const ctsave = document.querySelector("#ctsave");
+
     const btnfilterall = document.querySelector("#btnfilterall");
     const btnfilteramb = document.querySelector("#btnfilteramb");
     const btnfilterchl = document.querySelector("#btnfilterchl");
@@ -42,6 +46,7 @@
 
     back.addEventListener("click", (event) => {
       vanpage.style.display = 'none';
+      ctpage.style.display = 'none';      
       bp.style.display = 'block';
       back.style.display = 'none';
       svg.innerHTML = "";
@@ -58,6 +63,37 @@
       if (localStorage.getItem("vanreg") != null) {
         document.querySelector("#vanreg").value = localStorage.getItem("vanreg");
         JsBarcode("#barcode", localStorage.getItem("vanreg"), {
+          width: 3,
+          height: 120,
+        });
+      }
+    });
+
+    ctbtn.addEventListener("click", (event) => {
+      ctpage.style.display = 'block';
+      bp.style.display = 'none';
+      back.style.display = 'block';
+      svg.innerHTML = "";
+      vibe();
+
+      if (localStorage.getItem("ctreg") != null) {
+        document.querySelector("#ctreg").value = localStorage.getItem("ctreg");
+        JsBarcode("#barcode", localStorage.getItem("ctreg"), {
+          width: 3,
+          height: 120,
+        });
+      }
+    });    
+
+    ctsave.addEventListener("click", (event) => {
+      var ctreg = document.querySelector("#ctreg").value;
+      console.log("ctreg", ctreg);
+      if (ctreg.length > 0) {
+        let code = "CT-" + ctreg;
+              vibe();
+
+        localStorage.setItem("ctreg", code);
+        JsBarcode("#barcode", code, {
           width: 3,
           height: 120,
         });
@@ -192,6 +228,7 @@
         </div>
 
         <button class="button is-fullwidth mb-4" id="vanbtn">VAN</button>
+        <button class="button is-fullwidth mb-4" id="ctbtn">CONTAINER</button>
         <table class="table is-fullwidth is-narrow">
           <tr>
             <td class="amb"><button class="button is-fullwidth vb">E1</button></td>
@@ -246,6 +283,32 @@
 
         <button class="button is-success is-large  is-fullwidth" id="vansave">SAVE</button><br />
       </div>
+
+
+
+      <div id="ctpage" style="display:none;">
+
+
+        <div class="field has-addons">
+            <p class="control">
+    <a class="button is-large  is-static">
+      CT-
+    </a>
+  </p>
+  <p class="control">
+        <input class="input is-large mb-5" type="text" id="ctreg" placeholder="1234567" />
+  </p>
+
+</div>
+
+
+
+
+
+
+        <button class="button is-success is-large  is-fullwidth" id="ctsave">SAVE</button><br />
+      </div>
+
 
       <center>
         <svg id="barcode"></svg>
