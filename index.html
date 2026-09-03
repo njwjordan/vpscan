@@ -42,6 +42,10 @@
     const btnfilterchl = document.querySelector("#btnfilterchl");
     const btnfilterfrz = document.querySelector("#btnfilterfrz");
 
+    const canvas = document.querySelector("#barcode");
+
+
+
     function vibe() {
       if (navigator.vibrate)
         navigator.vibrate(100);
@@ -122,6 +126,30 @@
           height: 120,
         });
       }
+    });
+
+    ctcopy.addEventListener("click", (event) => {
+      var ctreg = document.querySelector("#ctreg").value;
+
+
+    canvas.toBlob(
+      (blob) => {
+      try {
+          navigator.clipboard.write([
+              new ClipboardItem({
+                  'image/png': blob
+              })
+          ]);
+      } catch (error) {
+          console.error(error);
+      }
+      },
+      "image/png",
+      1.0,
+    );
+
+
+
     });
 
     vansave.addEventListener("click", (event) => {
@@ -317,19 +345,24 @@
             <input class="input is-large mb-5 is-fullwidth" type="tel" id="ctreg" placeholder="1234567" />
           </p>
 
-        <div class="columns">
-                              <div class="column is-3">
+        <div class="columns is-mobile">
+                              <div class="column is-4">
 
-                              <button class="button is-danger is-large  is-fullwidth" id="clrbtn">CLEAR</button><br />
-
-          </div>
-          <div class="column is-3">
-                    <button class="button is-warning is-large  is-fullwidth" id="addctbtn">CT-</button><br />
+                              <button class="button is-danger  is-fullwidth" id="clrbtn">CLEAR</button><br />
 
           </div>
-                    <div class="column is-3">
+          <div class="column is-4">
+                    <button class="button is-warning is  is-fullwidth" id="addctbtn">CT-</button><br />
 
-                              <button class="button is-info is-large  is-fullwidth" id="addtrbtn">TR</button><br />
+          </div>
+                    <div class="column is-4">
+
+                              <button class="button is-info  is-fullwidth" id="addtrbtn">TR</button><br />
+
+          </div>
+                    <div class="column is-4">
+
+                              <button class="button is-info  is-fullwidth" id="ctcopy">COPY</button><br />
 
           </div>
 
@@ -343,7 +376,7 @@
 
 
       <center>
-        <svg id="barcode"></svg>
+        <canvas id="barcode"></canvas>
 
       </center>
 
