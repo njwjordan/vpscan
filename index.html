@@ -29,6 +29,7 @@
     const vanpage = document.querySelector("#vanpage");
     const vansave = document.querySelector("#vansave");
     const ctreg = document.querySelector("#ctreg");
+    const vanreg = document.querySelector("#vanreg");
 
     const ctbtn = document.querySelector("#ctbtn");
     const ctpage = document.querySelector("#ctpage");
@@ -36,6 +37,7 @@
     const addctbtn = document.querySelector("#addctbtn");
     const addtrbtn = document.querySelector("#addtrbtn");
     const clrbtn = document.querySelector("#clrbtn");
+    const vanclrbtn = document.querySelector("#vanclrbtn");
 
     const btnfilterall = document.querySelector("#btnfilterall");
     const btnfilteramb = document.querySelector("#btnfilteramb");
@@ -61,7 +63,7 @@
       vibe();
     });
 
-    
+
 
     addctbtn.addEventListener("click", (event) => {
       ctreg.value = "CT-" + ctreg.value;
@@ -70,14 +72,20 @@
     });
 
     addtrbtn.addEventListener("click", (event) => {
-    ctreg.value = "TR" + ctreg.value;
-          ctreg.focus();
+      ctreg.value = "TR" + ctreg.value;
+      ctreg.focus();
       vibe();
     });
 
     clrbtn.addEventListener("click", (event) => {
       ctreg.value = "";
-            ctreg.focus();
+      ctreg.focus();
+      vibe();
+    });
+
+    vanclrbtn.addEventListener("click", (event) => {
+      vanreg.value = "";
+      vanreg.focus();
       vibe();
     });
 
@@ -128,31 +136,34 @@
       }
     });
 
-    ctcopy.addEventListener("click", (event) => {
-      var ctreg = document.querySelector("#ctreg").value;
-
-
-    canvas.toBlob(
-      (blob) => {
-      try {
-          navigator.clipboard.write([
+    function copybarcode() {
+      canvas.toBlob(
+        (blob) => {
+          try {
+            navigator.clipboard.write([
               new ClipboardItem({
-                  'image/png': blob
+                'image/png': blob
               })
-          ]);
-      } catch (error) {
-          console.error(error);
-      }
-      },
-      "image/png",
-      1.0,
-    );
+            ]);
+          } catch (error) {
+            console.error(error);
+          }
+        },
+        "image/png",
+        1.0,
+      );
+    }
 
-
-
+    ctcopy.addEventListener("click", (event) => {
+      copybarcode();
+    });
+    vancopy.addEventListener("click", (event) => {
+      copybarcode();
     });
 
-    vansave.addEventListener("click", (event) => {
+
+
+    function runvansave() {
       var vanreg = document.querySelector("#vanreg").value;
       console.log("vanreg", vanreg);
       if (vanreg.length > 0) {
@@ -165,6 +176,11 @@
           height: 120,
         });
       }
+    }
+
+
+    vanreg.addEventListener("input", (event) => {
+      runvansave();
     });
 
     btnfilterall.addEventListener("click", (event) => {
@@ -333,7 +349,19 @@
       <div id="vanpage" style="display:none;">
         <input class="input is-large mb-5" type="text" id="vanreg" placeholder="VAN REGISTRATION" />
 
-        <button class="button is-success is-large  is-fullwidth" id="vansave">SAVE</button><br />
+        <div class="columns is-mobile">
+          <div class="column is-6">
+
+            <button class="button is-danger  is-fullwidth" id="vanclrbtn">CLEAR</button><br />
+
+          </div>
+          <div class="column is-6">
+
+            <button class="button is-info  is-fullwidth" id="vancopy">COPY</button><br />
+
+          </div>
+
+        </div>
       </div>
 
 
@@ -341,28 +369,28 @@
       <div id="ctpage" style="display:none;">
 
 
-          <p class="control">
-            <input class="input is-large mb-5 is-fullwidth" type="tel" id="ctreg" placeholder="1234567" />
-          </p>
+        <p class="control">
+          <input class="input is-large mb-5 is-fullwidth" type="tel" id="ctreg" placeholder="1234567" />
+        </p>
 
         <div class="columns is-mobile">
-                              <div class="column is-3">
+          <div class="column is-3">
 
-                              <button class="button is-danger  is-fullwidth" id="clrbtn">CLEAR</button><br />
+            <button class="button is-danger  is-fullwidth" id="clrbtn">CLEAR</button><br />
 
           </div>
           <div class="column is-3">
-                    <button class="button is-warning is  is-fullwidth" id="addctbtn">CT-</button><br />
+            <button class="button is-warning is  is-fullwidth" id="addctbtn">CT-</button><br />
 
           </div>
-                    <div class="column is-3">
+          <div class="column is-3">
 
-                              <button class="button is-info  is-fullwidth" id="addtrbtn">TR</button><br />
+            <button class="button is-info  is-fullwidth" id="addtrbtn">TR</button><br />
 
           </div>
-                    <div class="column is-3">
+          <div class="column is-3">
 
-                              <button class="button is-info  is-fullwidth" id="ctcopy">COPY</button><br />
+            <button class="button is-info  is-fullwidth" id="ctcopy">COPY</button><br />
 
           </div>
 
