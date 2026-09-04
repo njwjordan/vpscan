@@ -46,7 +46,19 @@
 
     const canvas = document.querySelector("#barcode");
 
+CanvasRenderingContext2D.prototype.clear = 
+  CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
+    if (preserveTransform) {
+      this.save();
+      this.setTransform(1, 0, 0, 1, 0, 0);
+    }
 
+    this.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    if (preserveTransform) {
+      this.restore();
+    }           
+};
 
     function vibe() {
       if (navigator.vibrate)
@@ -59,7 +71,11 @@
       ctpage.style.display = 'none';
       bp.style.display = 'block';
       back.style.display = 'none';
-      svg.innerHTML = "";
+      //svg.innerHTML = "";
+  var ctx = canvas.getContext('2d');
+ctx.setTransform(1, 0, 0, 1, 0, 0)
+ctx.clearRect(0, 0, canvas.width, canvas.height)
+
       vibe();
     });
 
@@ -168,7 +184,6 @@
       console.log("vanreg", vanreg);
       if (vanreg.length > 0) {
         let code = vanreg;
-        vibe();
 
         localStorage.setItem("vanreg", vanreg);
         JsBarcode("#barcode", code, {
